@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday Miss Satya 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      font-family: 'Open Sans', sans-serif;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 4rem;
+      margin-top: 2rem;
+    }
+    p {
+      font-size: 1.5rem;
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+    .heart {
+      font-size: 3rem;
+      animation: pulse 1s infinite;
+      color: #ff4e50;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    footer {
+      position: absolute;
+      bottom: 1rem;
+      width: 100%;
+      font-size: 1rem;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .countdown {
+      font-size: 2rem;
+      margin: 2rem auto;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: inline-block;
+      padding: 1rem 2rem;
+    }
+    .countdown span {
+      display: inline-block;
+      min-width: 80px;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- Background music -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-birthday.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<h1>Happy Birthday Miss Satya 🎂</h1>
+
+<div class="countdown" id="countdown">
+  Countdown: <span id="days">00</span>d
+  <span id="hours">00</span>h
+  <span id="minutes">00</span>m
+  <span id="seconds">00</span>s
+</div>
+
+<p>
+  On this special day, I just want to say...<br />
+  You light up the world with your kindness, your smile, and your grace.<br />
+  May your birthday be as lovely, fun, and beautiful as you are! 🎉<br /><br />
+  With all my heart,<br />
+  — Priyesh 💐
+</p>
+
+<div class="heart">💖</div>
+
+<footer>© 2025 With Love & Wishes – Priyesh</footer>
+
+<!-- Confetti Animation -->
+<script>
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let W = window.innerWidth, H = window.innerHeight;
+  canvas.width = W;
+  canvas.height = H;
+
+  let confetti = [], colors = ['#fce18a', '#ff726d', '#b48def', '#f4306d'];
+
+  for (let i = 0; i < 150; i++) {
+    confetti.push({
+      x: Math.random() * W,
+      y: Math.random() * H - H,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 100,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      tilt: Math.floor(Math.random() * 10) - 10,
+      tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+      tiltAngle: 0
+    });
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, W, H);
+    confetti.forEach((c, i) => {
+      ctx.beginPath();
+      ctx.lineWidth = c.r / 2;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+      ctx.stroke();
+    });
+    updateConfetti();
+  }
+
+  function updateConfetti() {
+    confetti.forEach((c, i) => {
+      c.tiltAngle += c.tiltAngleIncremental;
+      c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+      c.tilt = Math.sin(c.tiltAngle) * 15;
+      if (c.y > H) {
+        confetti[i] = {
+          ...c,
+          x: Math.random() * W,
+          y: -20
+        };
+      }
+    });
+  }
+
+  setInterval(drawConfetti, 20);
+  window.addEventListener('resize', () => {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W;
+    canvas.height = H;
+  });
+</script>
+
+<!-- Countdown Timer Script -->
+<script>
+  const targetDate = new Date("2025-05-21T00:00:00").getTime();
+
+  const countdown = () => {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+      document.getElementById("countdown").innerHTML = "🎉 It's Her Birthday Today! 🎉";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = mins;
+    document.getElementById("seconds").innerText = secs;
+  };
+
+  setInterval(countdown, 1000);
+</script>
+
+</body>
+</html>
